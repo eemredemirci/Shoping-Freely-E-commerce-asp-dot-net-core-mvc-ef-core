@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.DAL", "ShoppingFreely.DAL\ShoppingFreely.DAL.csproj", "{4F7244E0-D99C-4703-8A0B-52735EDD7675}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.DAL", "ShoppingFreely.DAL\ShoppingFreely.DAL.csproj", "{4F7244E0-D99C-4703-8A0B-52735EDD7675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.Entities", "ShoppingFreely.Entities\ShoppingFreely.Entities.csproj", "{04082D06-D7D9-4B5D-86EF-DFFBE3CF8FBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.Entities", "ShoppingFreely.Entities\ShoppingFreely.Entities.csproj", "{04082D06-D7D9-4B5D-86EF-DFFBE3CF8FBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.Core", "ShoppingFreely.Core\ShoppingFreely.Core.csproj", "{97792C7E-0F4C-4541-8C58-93A51749C4B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.Core", "ShoppingFreely.Core\ShoppingFreely.Core.csproj", "{97792C7E-0F4C-4541-8C58-93A51749C4B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.BLL", "ShoppingFreely.BLL\ShoppingFreely.BLL.csproj", "{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.BLL", "ShoppingFreely.BLL\ShoppingFreely.BLL.csproj", "{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.UI.MVC", "ShoppingFreely.UI.MVC\ShoppingFreely.UI.MVC.csproj", "{91A3F1E0-3CDF-406B-9DC3-92CA55960764}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91A3F1E0-3CDF-406B-9DC3-92CA55960764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91A3F1E0-3CDF-406B-9DC3-92CA55960764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91A3F1E0-3CDF-406B-9DC3-92CA55960764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91A3F1E0-3CDF-406B-9DC3-92CA55960764}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
