@@ -20,14 +20,18 @@ namespace ShoppingFreely.DAL.Concrete
         {
 
         }
+
         public DbSet<User> Users{ get; set; }
         public DbSet<Product> Products{ get; set; }
         public DbSet<Category> Categories{ get; set; }
         public DbSet<List> Lists { get; set; }
         public DbSet<ListProductDetail> ListProductDetails { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //modelBuilder.ApplyConfiguration(new UserMapping());
+            //modelBuilder.ApplyConfiguration(new TaskMapping());
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
@@ -35,7 +39,7 @@ namespace ShoppingFreely.DAL.Concrete
         {
             if(!optionsBuilder.IsConfigured)
             {
-                
+                optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = ShoppingFreely;");
             }
         }
     }
