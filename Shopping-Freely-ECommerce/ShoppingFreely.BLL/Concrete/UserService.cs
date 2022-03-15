@@ -27,31 +27,33 @@ namespace ShoppingFreely.BLL.Concrete
                 // farklı tipten geri dönüş olabilir
                 throw new Exception("Şifreniz en az 8 karakter olmalıdır");
             }
+            _userRepository.Add(entity);
         }
 
         public void Delete(User entity)
         {
-            throw new NotImplementedException();
-        }
-
-        public User Get(int id)
-        {
-            throw new NotImplementedException();
+            entity.IsActive = false;
+            _userRepository.Update(entity);
         }
 
         public ICollection<User> GetAll(Expression<Func<User, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            return _userRepository.GetAll(filter);
+        }
+
+        public User GetById(int id)
+        {
+            return _userRepository.GetById(id);
         }
 
         public User GetEntity(Expression<Func<User, bool>> filter)
         {
-            throw new NotImplementedException();
+            return _userRepository.GetEntity(filter);
         }
 
         public void Update(User entity)
         {
-            throw new NotImplementedException();
+            _userRepository.Update(entity);
         }
     }
 }

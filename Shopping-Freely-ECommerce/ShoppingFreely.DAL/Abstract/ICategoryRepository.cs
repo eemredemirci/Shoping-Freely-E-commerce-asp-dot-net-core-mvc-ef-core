@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingFreely.DAL.Abstract
 {
-    public interface IListRepository:IRepository<List>
+    public interface ICategoryRepository :IRepository<Category>
     {
     }
 }

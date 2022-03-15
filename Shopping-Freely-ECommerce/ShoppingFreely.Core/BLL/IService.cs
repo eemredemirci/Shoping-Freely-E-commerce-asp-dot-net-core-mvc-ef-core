@@ -16,9 +16,15 @@ namespace ShoppingFreely.Core.BLL
         void Add(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);
-        TEntity Get(int id);
+        TEntity GetById(int id);
         TEntity GetEntity(Expression<Func<TEntity, bool>> filter);
         ICollection<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null);
+
+        ////Task
+        //Task<TEntity> GetByIdAsync(int id);
+        //Task AddAsync(TEntity entity);
+        //Task UpdateAsync(TEntity entity);
+        //Task DeleteAsync(TEntity entity);
 
     }
 }

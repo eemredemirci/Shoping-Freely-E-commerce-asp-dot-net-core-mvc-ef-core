@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingFreely.DAL.Concrete
 {
-    internal class EFCoreUserRepository : EFCoreRepositoryBase<User, ShoppingFreelyDbContext>, IUserRepository
+    class EFCoreUserRepository : EFCoreRepositoryBase<User, ShoppingFreelyDbContext>, IUserRepository
     {
         // using li kullanacaksak ctor boş kalabilirdi
 

@@ -19,53 +19,67 @@ namespace ShoppingFreely.Core.DAL.EFCore
         // Ekledikten sonra Getir yapıyorsak
         // Ram'de kaldığı için ihtiyacımız olabilir
 
-        readonly TContext _context;
-        readonly DbSet<TEntity> _dbSet;
+        TContext _context;
+        DbSet<TEntity> entities;
+
         public EFCoreRepositoryBase(TContext context)
         {
             _context = context;
-            _dbSet=_context.Set<TEntity>();
+            entities = _context.Set<TEntity>();
         }
+
         public void Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            entities.Add(entity);
             _context.SaveChanges();
+
+
+            //using (TContext context = new TContext())
+            //{
+            //    context.Set<TEntity>().Add(entity);
+            //}
         }
 
         public void Delete(TEntity entity)
         {
-            _dbSet.Remove(entity);
+            entities.Remove(entity);
             _context.SaveChanges();
-        }
-
-        public TEntity Get(int id)
-        {
-            return _dbSet.Find(id);
         }
 
         public ICollection<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
-            if(filter==null)
+            if (filter == null)
             {
-                return _dbSet.ToList();
-                //return _context.Set<TEntity>().ToList();
+                return entities.ToList();
+                // return _context.Set<TEntity>().ToList(); // bu da olur
             }
             else
             {
-                return _dbSet.Where(filter).ToList();
-                //return _context.Set<TEntity>().Where(filter).ToList();
+                return entities.Where(filter).ToList();
+                //return _context.Set<TEntity>().Where(filter).ToList(); // bu da olur
             }
+        }
+
+        public TEntity GetById(int id)
+        {
+            return entities.Find(id);
         }
 
         public TEntity GetEntity(Expression<Func<TEntity, bool>> filter)
         {
-            return _dbSet.SingleOrDefault(filter);
+            return entities.SingleOrDefault(filter);
         }
 
         public void Update(TEntity entity)
         {
-            _dbSet.Update(entity);
+            entities.Update(entity);
             _context.SaveChanges();
         }
+
+        //public bool Update(TEntity entity)
+        //{
+        //    entities.Update(entity);
+        //    return _context.SaveChanges() > 0; SaveChanges metodu etkilenen satır sayısını döner
+        //}
     }
 }
