@@ -21,6 +21,5 @@ namespace ShoppingFreely.DAL.Dependencies
 
             return services;
         }
-
     }
 }

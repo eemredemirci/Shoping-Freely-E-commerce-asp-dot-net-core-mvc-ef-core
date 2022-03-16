@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ShoppingFreely.DAL.Concrete.EFCore.Mapping;
 using ShoppingFreely.Entities;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingFreely.DAL.Concrete
 {
-    internal class ShoppingFreelyDbContext:DbContext
+    internal class ShoppingFreelyDbContext: IdentityDbContext
     {
         public ShoppingFreelyDbContext()
         {

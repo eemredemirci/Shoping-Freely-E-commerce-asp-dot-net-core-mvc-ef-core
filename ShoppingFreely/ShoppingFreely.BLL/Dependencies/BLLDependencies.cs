@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ShoppingFreely.BLL.Abstract;
 using ShoppingFreely.BLL.Concrete;
 using ShoppingFreely.DAL.Dependencies;
+using ShoppingFreely.DAL.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace ShoppingFreely.BLL.Dependencies
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IListService, ListService>();
             services.AddScoped<IListProductDetailService, ListProductDetailService>();
-
+            services.AddIdentityDataAccess(configuration);
             return services;
         }
     }

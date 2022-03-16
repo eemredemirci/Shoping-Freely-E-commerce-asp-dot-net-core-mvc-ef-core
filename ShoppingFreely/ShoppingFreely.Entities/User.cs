@@ -1,14 +1,10 @@
 ﻿using ShoppingFreely.Core.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ShoppingFreely.Entities
 {
-    public class User : BaseEntity
+    public class User:BaseEntity
     {
         [Required(ErrorMessage = "Zorunlu alan")]
         public string Name { get; set; }
