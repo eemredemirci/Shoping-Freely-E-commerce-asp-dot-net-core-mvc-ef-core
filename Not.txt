@@ -1,0 +1,3 @@
+Hocam Onion architect identity servisini yapamadığım için yarım kaldı
+bende çözüm olarak yeni mvc açtım identiiy kullanıcı atama rol oluşturma ve 
+kullanıcı ile ilişkilendirme yaptım yetiştirebildiğim kadar
