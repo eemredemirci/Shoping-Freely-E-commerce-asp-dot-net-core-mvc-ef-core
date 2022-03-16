@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.Core", "Shop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.BLL", "ShoppingFreely.BLL\ShoppingFreely.BLL.csproj", "{6CEF3BBC-1FDC-4C71-A876-91189B056A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreely.UI.MVC", "ShoppingFreely.UI.MVC\ShoppingFreely.UI.MVC.csproj", "{63EF63B3-5B32-48B7-84D7-DF928506BBCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingFreely.UI.MVC", "ShoppingFreely.UI.MVC\ShoppingFreely.UI.MVC.csproj", "{63EF63B3-5B32-48B7-84D7-DF928506BBCA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingFreelyMVC", "ShoppingFreelyMVC\ShoppingFreelyMVC.csproj", "{AD2DCA37-5C51-4092-8DA6-A9278B029F09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{63EF63B3-5B32-48B7-84D7-DF928506BBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63EF63B3-5B32-48B7-84D7-DF928506BBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63EF63B3-5B32-48B7-84D7-DF928506BBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD2DCA37-5C51-4092-8DA6-A9278B029F09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD2DCA37-5C51-4092-8DA6-A9278B029F09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD2DCA37-5C51-4092-8DA6-A9278B029F09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD2DCA37-5C51-4092-8DA6-A9278B029F09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
