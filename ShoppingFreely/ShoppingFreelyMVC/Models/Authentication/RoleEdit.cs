@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace ShoppingFreelyMVC.Models
+namespace ShoppingFreelyMVC.Models.Authentication
 {
     public class RoleEdit
     {

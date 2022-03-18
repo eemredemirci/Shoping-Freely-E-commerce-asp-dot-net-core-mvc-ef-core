@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShoppingFreelyMVC.Models.VModels
+namespace ShoppingFreelyMVC.Models.Authentication
 {
     public class UserLoginDto
     {

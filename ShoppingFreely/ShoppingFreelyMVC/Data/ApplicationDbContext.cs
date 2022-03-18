@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using ShoppingFreelyMVC.Models;
+using ShoppingFreelyMVC.Models.Authentication;
 
 namespace ShoppingFreelyMVC.Data
 {

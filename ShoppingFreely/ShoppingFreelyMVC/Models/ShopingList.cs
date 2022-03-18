@@ -1,5 +1,7 @@
 ﻿
 
+using ShoppingFreelyMVC.Models.Authentication;
+
 namespace ShoppingFreelyMVC.Models
 {
     public class ShopingList : BaseEntity

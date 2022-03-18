@@ -1,21 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ShoppingFreelyMVC.Models;
-using ShoppingFreelyMVC.Models.VModels;
+using ShoppingFreelyMVC.Models.Authentication;
 using System.Security.Claims;
 
 namespace ShoppingFreelyMVC.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<User> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-        private readonly SignInManager<IdentityUser> signInManager;
-        public AccountController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager, RoleManager<IdentityRole> roleManager)
+        private readonly SignInManager<User> signInManager;
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
-            
+
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.signInManager = signInManager;
@@ -23,23 +21,22 @@ namespace ShoppingFreelyMVC.Controllers
         [HttpGet, AllowAnonymous]
         public IActionResult Register()
         {
-            User model = new User();
+            UserRegistrationDto model = new UserRegistrationDto();
             return View(model);
         }
         [HttpPost, AllowAnonymous]
-        public async Task<IActionResult> Register(User request)
+        public async Task<IActionResult> Register(UserRegistrationDto request)
         {
             if (ModelState.IsValid)
             {
                 var userCheck = await userManager.FindByEmailAsync(request.Email);
                 if (userCheck == null)
                 {
-                    var user = new IdentityUser
+                    var user = new User
                     {
                         UserName = request.Email,
                         NormalizedUserName = request.Email,
                         Email = request.Email,
-                        PhoneNumber = request.PhoneNumber,
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                     };
@@ -69,15 +66,17 @@ namespace ShoppingFreelyMVC.Controllers
             return View(request);
 
         }
+
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Login()
         {
             UserLoginDto model = new UserLoginDto();
             return View(model);
         }
+
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Login(UserLoginDto model)
         {
             if (ModelState.IsValid)
@@ -85,9 +84,19 @@ namespace ShoppingFreelyMVC.Controllers
                 var user = await userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed)
                 {
-                    ModelState.AddModelError("message", "Email not confirmed yet");
-                    return View(model);
-
+                    var userRoles = await userManager.GetRolesAsync(user);
+                    foreach (var item in userRoles)
+                    {
+                        if (item == "Administrator")
+                        {
+                            return RedirectToAction(nameof(Index), nameof(AdminController));
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("message", "Email not confirmed yet");
+                            return View(model);
+                        }
+                    }
                 }
                 if (await userManager.CheckPasswordAsync(user, model.Password) == false)
                 {
@@ -115,6 +124,7 @@ namespace ShoppingFreelyMVC.Controllers
             }
             return View(model);
         }
+
         [Authorize]
         public IActionResult Dashboard()
         {
@@ -124,6 +134,11 @@ namespace ShoppingFreelyMVC.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("login", "account");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
     }

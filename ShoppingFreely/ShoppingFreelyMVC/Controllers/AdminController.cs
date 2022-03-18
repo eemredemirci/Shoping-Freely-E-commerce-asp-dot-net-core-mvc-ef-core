@@ -2,11 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingFreelyMVC.Models;
+using ShoppingFreelyMVC.Models.Authentication;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShoppingFreelyMVC.Controllers
 {
-    //[Authorize("Admin")]
+    [Authorize(Roles = "Administrator")]
     public class AdminController : Controller
     {
         private RoleManager<IdentityRole> roleManager;
@@ -36,6 +37,12 @@ namespace ShoppingFreelyMVC.Controllers
             return View(name);
         }
 
+        private void Errors(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -52,7 +59,6 @@ namespace ShoppingFreelyMVC.Controllers
                 ModelState.AddModelError("", "No role found");
             return View("Index", roleManager.Roles);
         }
-
         public async Task<IActionResult> Update(string id)
         {
             IdentityRole role = await roleManager.FindByIdAsync(id);
@@ -103,12 +109,6 @@ namespace ShoppingFreelyMVC.Controllers
                 return RedirectToAction(nameof(Index));
             else
                 return await Update(model.RoleId);
-        }
-
-        private void Errors(IdentityResult result)
-        {
-            foreach (IdentityError error in result.Errors)
-                ModelState.AddModelError("", error.Description);
         }
     }
 }

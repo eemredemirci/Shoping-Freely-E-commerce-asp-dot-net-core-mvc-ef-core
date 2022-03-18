@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ShoppingFreelyMVC.Models
+namespace ShoppingFreelyMVC.Models.Authentication
 {
     public class RoleModification
     {
@@ -11,6 +11,6 @@ namespace ShoppingFreelyMVC.Models
 
         public string[] AddIds { get; set; }
 
-        public string[] DeleteIds { get; set; }
+        public string[]? DeleteIds { get; set; }
     }
 }
