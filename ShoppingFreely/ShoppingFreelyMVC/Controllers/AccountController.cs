@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShoppingFreelyMVC.Models.Authentication;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace ShoppingFreelyMVC.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AccountController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -18,6 +20,8 @@ namespace ShoppingFreelyMVC.Controllers
             this.roleManager = roleManager;
             this.signInManager = signInManager;
         }
+        // Login, Logout, AccessDenied, vs. Identity kontrolünde
+        #region Custom Identity Account Functions
         [HttpGet, AllowAnonymous]
         public IActionResult Register()
         {
@@ -89,7 +93,7 @@ namespace ShoppingFreelyMVC.Controllers
                     {
                         if (item == "Administrator")
                         {
-                            return RedirectToAction(nameof(Index), nameof(AdminController));
+                            return RedirectToAction(nameof(Index));
                         }
                         else
                         {
@@ -140,6 +144,107 @@ namespace ShoppingFreelyMVC.Controllers
         {
             return View();
         }
+        #endregion
+
+        // IdetityManageLayout sayfasına Role kontrolü için Admin Panel eklendi.
+        #region RoleCrud
+        public IActionResult Index() => View(roleManager.Roles);
+
+        public IActionResult CreateRole() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole([Required] string name)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                else
+                    Errors(result);
+            }
+            return View(name);
+        }
+
+        private void Errors(IdentityResult result)
+        {
+            foreach (IdentityError error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            IdentityRole role = await roleManager.FindByIdAsync(id);
+            if (role != null)
+            {
+                IdentityResult result = await roleManager.DeleteAsync(role);
+                if (result.Succeeded)
+                    return RedirectToAction(nameof(Index));
+                else
+                    Errors(result);
+            }
+            else
+                ModelState.AddModelError("", "No role found");
+            return View(nameof(Index), roleManager.Roles);
+        }
+        public async Task<IActionResult> UpdateRole(string id)
+        {
+            IdentityRole role = await roleManager.FindByIdAsync(id);
+            List<User> members = new List<User>();
+            List<User> nonMembers = new List<User>();
+            foreach (User user in userManager.Users)
+            {
+                var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                list.Add(user);
+            }
+            return View(new RoleEdit
+            {
+                Role = role,
+                Members = members,
+                NonMembers = nonMembers
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateRole(RoleModification model)
+        {
+            IdentityResult result;
+            if (ModelState.IsValid)
+            {
+                foreach (string userId in model.AddIds ?? new string[] { })
+                {
+                    User user = await userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        result = await userManager.AddToRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                            Errors(result);
+                    }
+                }
+                foreach (string userId in model.DeleteIds ?? new string[] { })
+                {
+                    User user = await userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                            Errors(result);
+                    }
+                }
+            }
+
+            if (ModelState.IsValid)
+                return RedirectToAction(nameof(Index));
+            else
+                return await UpdateRole(model.RoleId);
+        }
 
     }
+    #endregion
+
 }
+
+
+
+
