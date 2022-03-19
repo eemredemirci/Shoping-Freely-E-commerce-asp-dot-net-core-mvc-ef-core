@@ -7,7 +7,7 @@ namespace ShoppingFreelyMVC.Models
         public Product()
         {
             ShopingListDetails = new HashSet<ShopingListDetail>();
-                }
+        }
         public string Name { get; set; }
         public byte[] Picture { get; set; }
         public int CategoryId { get; set; }

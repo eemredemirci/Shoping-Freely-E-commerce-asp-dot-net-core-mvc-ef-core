@@ -12,6 +12,7 @@ using ShoppingFreelyMVC.Models;
 
 namespace ShoppingFreelyMVC.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -28,6 +29,7 @@ namespace ShoppingFreelyMVC.Controllers
         }
 
         // GET: Categories/Details/5
+        
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,7 +47,6 @@ namespace ShoppingFreelyMVC.Controllers
             return View(category);
         }
 
-        [Authorize(Roles = "Administrator")]
         // GET: Categories/Create
         public IActionResult Create()
         {
@@ -55,8 +56,7 @@ namespace ShoppingFreelyMVC.Controllers
         // POST: Categories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        
-        [Authorize(Roles = "Administrator")]
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Id")] Category category)
@@ -71,7 +71,6 @@ namespace ShoppingFreelyMVC.Controllers
         }
 
         // GET: Categories/Edit/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -92,7 +91,6 @@ namespace ShoppingFreelyMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int id, [Bind("Name,Id")] Category category)
         {
             if (id != category.Id)
@@ -124,7 +122,6 @@ namespace ShoppingFreelyMVC.Controllers
         }
 
         // GET: Categories/Delete/5
-        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,7 +141,6 @@ namespace ShoppingFreelyMVC.Controllers
 
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize(Roles = "Administrator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

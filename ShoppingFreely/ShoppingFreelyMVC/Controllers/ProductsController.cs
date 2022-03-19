@@ -1,8 +1,4 @@
 ﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +45,7 @@ namespace ShoppingFreelyMVC.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
             return View();
         }
 
@@ -58,15 +54,26 @@ namespace ShoppingFreelyMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Picture,CategoryId,Id")] Product product)
+        public async Task<IActionResult> Create([Bind("Name,Picture,CategoryId,Id")] Product product, IFormFile Picture)
         {
-            if (ModelState.IsValid)
+            //if (ModelState.IsValid)
+            //{
+            if (Picture != null)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (Picture.Length > 0)
+                {
+                    using (var target = new MemoryStream())
+                    {
+                        Picture.CopyTo(target);
+                        product.Picture = target.ToArray();
+                    }
+                }
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            _context.Add(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            //}
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -83,7 +90,7 @@ namespace ShoppingFreelyMVC.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
 
@@ -92,17 +99,27 @@ namespace ShoppingFreelyMVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,Picture,CategoryId,Id")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,Picture,CategoryId,Id")] Product product, IFormFile Picture)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
+            
                 try
                 {
+                    if (Picture != null)
+                    {
+                        if (Picture.Length > 0)
+                        {
+                            using (var target = new MemoryStream())
+                            {
+                                Picture.CopyTo(target);
+                                product.Picture = target.ToArray();
+                            }
+                        }
+                    }
                     _context.Update(product);
                     await _context.SaveChangesAsync();
                 }
@@ -118,8 +135,8 @@ namespace ShoppingFreelyMVC.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
+            
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
             return View(product);
         }
 

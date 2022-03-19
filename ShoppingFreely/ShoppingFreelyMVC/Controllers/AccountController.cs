@@ -1,24 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingFreelyMVC.Data;
 using ShoppingFreelyMVC.Models.Authentication;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
+
 namespace ShoppingFreelyMVC.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly SignInManager<User> signInManager;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
-        {
 
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.signInManager = signInManager;
+        public AccountController(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager) : base(context, userManager, signInManager, roleManager)
+        {
         }
         // Login, Logout, AccessDenied, vs. Identity kontrolünde
         #region Custom Identity Account Functions

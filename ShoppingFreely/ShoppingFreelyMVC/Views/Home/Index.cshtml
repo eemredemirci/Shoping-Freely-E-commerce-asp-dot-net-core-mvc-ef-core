@@ -1,8 +1,49 @@
-﻿@{
+﻿@model IEnumerable<ShoppingFreelyMVC.Models.Product>
+@{
     ViewData["Title"] = "Home Page";
 }
+<head>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Hoş Geldiniz</h1>
 </div>
+
+    <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative;">
+        <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
+        @foreach (var item in Model)
+        {
+                <div class="col">
+                    <div class="card h-100 shadow-sm"> @Html.ImageToBase64(item.Picture)
+                        <div class="card-body">
+                            <div class="clearfix mb-3"> <span class="float-start badge rounded-pill bg-primary">@item.Name</span> <span class="float-end price-hp">12354.00₺</span> </div>
+                            <h5 class="card-title">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam quidem eaque ut eveniet aut quis rerum. Asperiores accusamus harum ducimus velit odit ut. Saepe, iste optio laudantium sed aliquam sequi.</h5>
+                            <div class="text-center my-4"> <a href="#" class="btn btn-warning">Listene Ekle</a> </div>
+                        </div>
+                    </div>
+                </div>
+        }
+        </div>
+    </div>
+ 
+
+@* Birisi sizi listeye ekledi*@
+@section Scripts{
+<script>
+    $(document).ready(function(){
+        $("#btnGet").click(function(){
+        $.ajax({
+            url:'@Url.Action("GetData","Home")',
+            type: "GET",
+            success: function(data){
+                alert(data);
+            },
+            error: function(err){
+                alert("Hata oluştu");
+            }
+        });
+    });
+    });
+</script>
+}
