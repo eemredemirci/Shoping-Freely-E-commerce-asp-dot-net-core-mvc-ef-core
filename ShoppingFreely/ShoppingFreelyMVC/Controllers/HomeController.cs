@@ -6,18 +6,18 @@ using System.Diagnostics;
 
 namespace ShoppingFreelyMVC.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        //private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
-        public HomeController(/*ILogger<HomeController> logger ,*/ApplicationDbContext context)
+        public HomeController(/*ILogger<HomeController> logger ,*/ApplicationDbContext context) : base(context)
         {
-            //_logger = logger;
-            _context = context;
         }
 
         public async Task<IActionResult> Index()
         {
+            if (currentList != null)
+            {
+                ViewData["ListName"] = currentList.Name +" Listesi Seçildi";
+            }
             var applicationDbContext = _context.Products.Include(p => p.Category);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -33,7 +33,7 @@ namespace ShoppingFreelyMVC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // return ekleyen kişi
+        // return listeye ekleyen kişi popup
         public string GetData()
         {
             return "John Nash";

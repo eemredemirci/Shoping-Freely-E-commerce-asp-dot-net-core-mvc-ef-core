@@ -9,24 +9,34 @@ namespace ShoppingFreelyMVC.Controllers
 {
     public class BaseController : Controller
     {
-        protected readonly UserManager<User> userManager;
-        protected readonly RoleManager<IdentityRole> roleManager;
-        protected readonly SignInManager<User> signInManager;
+        protected readonly UserManager<User>? _userManager;
+        protected readonly RoleManager<IdentityRole> _roleManager;
+        protected readonly SignInManager<User> _signInManager;
         protected readonly ApplicationDbContext _context;
-        protected ShoppingList currentList;
+        public static ShoppingList currentList;
         public BaseController(ApplicationDbContext context, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.signInManager = signInManager;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
         }
         public BaseController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
-            this.userManager = userManager;
+            this._userManager = userManager;
         }
-        public string GetCurrentUserIdAsync() => userManager.GetUserId(User);
+        public BaseController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+        public string GetCurrentUserIdAsync() => _userManager.GetUserId(User);
+        public async Task<User> GetCurrentUser()
+        {
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            return user;
+        }
+
         public ShoppingList GetCurrentShoppingList(ShoppingList shoppingList) => currentList = shoppingList;
     }
 }

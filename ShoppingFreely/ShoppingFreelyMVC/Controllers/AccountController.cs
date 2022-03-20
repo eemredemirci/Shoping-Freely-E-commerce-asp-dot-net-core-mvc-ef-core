@@ -29,7 +29,7 @@ namespace ShoppingFreelyMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var userCheck = await userManager.FindByEmailAsync(request.Email);
+                var userCheck = await _userManager.FindByEmailAsync(request.Email);
                 if (userCheck == null)
                 {
                     var user = new User
@@ -40,7 +40,7 @@ namespace ShoppingFreelyMVC.Controllers
                         EmailConfirmed = true,
                         PhoneNumberConfirmed = true,
                     };
-                    var result = await userManager.CreateAsync(user, request.Password);
+                    var result = await _userManager.CreateAsync(user, request.Password);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Login");
@@ -81,10 +81,10 @@ namespace ShoppingFreelyMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null && !user.EmailConfirmed)
                 {
-                    var userRoles = await userManager.GetRolesAsync(user);
+                    var userRoles = await _userManager.GetRolesAsync(user);
                     foreach (var item in userRoles)
                     {
                         if (item == "Administrator")
@@ -98,18 +98,18 @@ namespace ShoppingFreelyMVC.Controllers
                         }
                     }
                 }
-                if (await userManager.CheckPasswordAsync(user, model.Password) == false)
+                if (await _userManager.CheckPasswordAsync(user, model.Password) == false)
                 {
                     ModelState.AddModelError("message", "Invalid credentials");
                     return View(model);
 
                 }
 
-                var result = await signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddClaimAsync(user, new Claim("UserRole", "Admin"));
+                    await _userManager.AddClaimAsync(user, new Claim("UserRole", "Admin"));
                     return RedirectToAction("Dashboard");
                 }
                 else if (result.IsLockedOut)
@@ -132,7 +132,7 @@ namespace ShoppingFreelyMVC.Controllers
         }
         public async Task<IActionResult> Logout()
         {
-            await signInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
             return RedirectToAction("login", "account");
         }
 
@@ -144,7 +144,7 @@ namespace ShoppingFreelyMVC.Controllers
 
         // IdetityManageLayout sayfasına Role kontrolü için Admin Panel eklendi.
         #region RoleCrud
-        public IActionResult Index() => View(roleManager.Roles);
+        public IActionResult Index() => View(_roleManager.Roles);
 
         public IActionResult CreateRole() => View();
 
@@ -153,7 +153,7 @@ namespace ShoppingFreelyMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
+                IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                     return RedirectToAction(nameof(Index));
                 else
@@ -171,10 +171,10 @@ namespace ShoppingFreelyMVC.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            IdentityRole role = await roleManager.FindByIdAsync(id);
+            IdentityRole role = await _roleManager.FindByIdAsync(id);
             if (role != null)
             {
-                IdentityResult result = await roleManager.DeleteAsync(role);
+                IdentityResult result = await _roleManager.DeleteAsync(role);
                 if (result.Succeeded)
                     return RedirectToAction(nameof(Index));
                 else
@@ -182,16 +182,16 @@ namespace ShoppingFreelyMVC.Controllers
             }
             else
                 ModelState.AddModelError("", "No role found");
-            return View(nameof(Index), roleManager.Roles);
+            return View(nameof(Index), _roleManager.Roles);
         }
         public async Task<IActionResult> UpdateRole(string id)
         {
-            IdentityRole role = await roleManager.FindByIdAsync(id);
+            IdentityRole role = await _roleManager.FindByIdAsync(id);
             List<User> members = new List<User>();
             List<User> nonMembers = new List<User>();
-            foreach (User user in userManager.Users)
+            foreach (User user in _userManager.Users)
             {
-                var list = await userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
                 list.Add(user);
             }
             return View(new RoleEdit
@@ -210,20 +210,20 @@ namespace ShoppingFreelyMVC.Controllers
             {
                 foreach (string userId in model.AddIds ?? new string[] { })
                 {
-                    User user = await userManager.FindByIdAsync(userId);
+                    User user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-                        result = await userManager.AddToRoleAsync(user, model.RoleName);
+                        result = await _userManager.AddToRoleAsync(user, model.RoleName);
                         if (!result.Succeeded)
                             Errors(result);
                     }
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
-                    User user = await userManager.FindByIdAsync(userId);
+                    User user = await _userManager.FindByIdAsync(userId);
                     if (user != null)
                     {
-                        result = await userManager.RemoveFromRoleAsync(user, model.RoleName);
+                        result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
                         if (!result.Succeeded)
                             Errors(result);
                     }

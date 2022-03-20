@@ -6,7 +6,7 @@ namespace ShoppingFreelyMVC.Extensions
 {
     public static class ImageExtension
     {
-        public static IHtmlContent ImageToBase64(this IHtmlHelper helper, byte[] image)
+        public static IHtmlContent ImageFromBase64(this IHtmlHelper helper, byte[] image)
         {
             var img = String.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(image));
             return new HtmlString("<img class='w3-round-xlarge' src='" + img + "' />");

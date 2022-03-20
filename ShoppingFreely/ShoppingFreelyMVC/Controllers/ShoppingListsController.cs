@@ -60,8 +60,16 @@ namespace ShoppingFreelyMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                User user = await GetCurrentUser();
+                if(user==null)
+                {
+                    throw new ApplicationException("User not found");
+                }
+
                 shoppingList.Status = ListStatus.Open;
                 shoppingList.AdminId = GetCurrentUserIdAsync();
+                shoppingList.Users.Add(user);
+                _context.ShoppingLists.Add(shoppingList);
 
                 _context.Add(shoppingList);
                 await _context.SaveChangesAsync();
@@ -163,7 +171,7 @@ namespace ShoppingFreelyMVC.Controllers
                 return NotFound();
             }
             GetCurrentShoppingList(shoppingList);
-            return RedirectToAction(nameof(Index),nameof(HomeController));
+            return RedirectToAction("Index", "Home");
         }
 
         private bool ShoppingListExists(int id)
