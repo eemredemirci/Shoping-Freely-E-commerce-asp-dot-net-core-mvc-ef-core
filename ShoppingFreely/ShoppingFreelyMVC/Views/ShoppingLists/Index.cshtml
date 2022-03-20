@@ -20,7 +20,7 @@
                 @Html.DisplayNameFor(model => model.Status)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AdminId)
+                @Html.DisplayNameFor(model => model.ShopperUser)
             </th>
             <th></th>
         </tr>
@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.AdminId)
+                @Html.DisplayFor(modelItem => item.ShopperUser)
             </td>
             <td>
                 <a asp-action="SelectList" asp-route-id="@item.Id">Seç</a> |

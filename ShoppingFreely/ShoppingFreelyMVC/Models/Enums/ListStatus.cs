@@ -6,5 +6,6 @@ namespace ShoppingFreelyMVC.Models
     {
         Open,
         Shopping,
+        Completed
     }
 }

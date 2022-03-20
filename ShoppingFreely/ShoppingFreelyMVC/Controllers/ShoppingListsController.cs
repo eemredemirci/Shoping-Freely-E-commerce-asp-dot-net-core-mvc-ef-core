@@ -24,7 +24,9 @@ namespace ShoppingFreelyMVC.Controllers
         // GET: ShoppingLists
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ShoppingLists.ToListAsync());
+            User user = await GetCurrentUser();
+            var filtered = _context.ShoppingLists.Include(a => a.Users).Where(a => a.Users.Any(u => u.Id == user.Id)).ToList();
+            return View(filtered);
         }
 
         // GET: ShoppingLists/Details/5
@@ -67,11 +69,10 @@ namespace ShoppingFreelyMVC.Controllers
                 }
 
                 shoppingList.Status = ListStatus.Open;
-                shoppingList.AdminId = GetCurrentUserIdAsync();
                 shoppingList.Users.Add(user);
-                _context.ShoppingLists.Add(shoppingList);
+                //_context.ShoppingLists.Add(shoppingList);
 
-                _context.Add(shoppingList);
+                _context.ShoppingLists.Add(shoppingList);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

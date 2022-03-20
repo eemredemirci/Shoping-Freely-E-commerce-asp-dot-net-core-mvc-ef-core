@@ -8,15 +8,15 @@ namespace ShoppingFreelyMVC.Models
     {
         public ShoppingList()
         {
-            Products = new HashSet<Product>();
+            ShopingListDetails = new HashSet<ShopingListDetail>();
             Users = new HashSet<User>();
         }
         [StringLength(100)]
         [Required]
         public string Name { get; set; }
         public ListStatus? Status { get; set; } = ListStatus.Open;
-        public string? AdminId { get; set; }
-        public ICollection<Product>? Products { get; set; }
+        public string? ShopperUser { get; set; }
         public ICollection<User>? Users { get; set; }
+        public ICollection<ShopingListDetail> ShopingListDetails { get; set; }
     }
 }
